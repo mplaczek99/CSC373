@@ -1,0 +1,132 @@
+#include <stdio.h>	Standard input/output
+#include limits.h 	Limits	(Optional)
+int bitComplement(int x) {
+	return ~x;
+}
+
+int bitOR(int x, int y) {
+	return x | y;
+}
+
+int bitXOR(int x, int y) {
+  return x ^ y;
+}
+
+int bitAND(int x, int y) {
+  return ~(~x | ~y);
+}
+
+int bitAND(int x, int y) {
+	return x & y;
+}
+
+int byteSwap(int x, int n, int m) {
+  int mask = 0;
+  int mask_m = 0xFF << (m << 3);
+  int mask_n = 0xFF << (n << 3);
+  int x_n = x >> (n << 3) & 0xFF;
+  int x_m = x >> (m << 3) & 0xFF;
+  mask = (mask_m | mask_n) ^ ~0;
+  return (x & mask) | (x_m << (n << 3)) | (x_n << (m << 3));
+}
+
+int getByte(int x, int n) {
+  int bytesToShift = n << 3;
+  int mask = 0xff;
+  return (x >> bytesToShift) & mask;
+}
+
+int getByte2(int x, int y) {
+	int shift_value = n << 3;
+	int new_value = x >> shift_value;
+	return new_value & 0xff;
+}
+
+int getMax(void) {
+  int n = 1 << 31;
+  return ~n;
+}
+
+int getMin(void) {
+  int n = 1 << 31;
+  return n;
+}
+
+int half(int x) {
+  return x >> 1;
+}
+
+int isEqual(int x, int y) {
+  return !(x ^ y);
+}
+
+int isEven(int x) {
+  return !(x & 1);
+}
+
+int isOdd(int x) {
+  return (x & 1);
+}
+
+int LSB(int x) {
+  return x & 0xff;
+}
+
+int MSB(int x) {
+  int mask = 0xff000000;
+  return (x & mask) >> 24;
+}
+
+int multiplyBy2(int x) {
+  return x << 1;
+}
+
+int negate(int x) {
+  return ~x + 1;
+}
+
+int rotate4(int x) {
+  int rotatedNum = x << 4;
+  int restNums = x >> 32 + (~4) + 1;
+  return rotatedNum | restNums & ~(~0 << 4);
+}
+
+Arthemetic Shift changes trailing bits to 1, if number was negative
+Logical Shift makes trailing bits 0
+
+Binary / Hexadecimal -> Decimal creates a positive and negative number
+	(Positive - 256 = Negative Number)
+	
+Binary of 2^x = 0 (x times) and then a 1 as MSB
+
+0xff is hex for 1 1 1 1
+
+~0 is shortcut for 1 1 1 1  1 1 1 1  1 1 1 1  1 1 1 1
+
+Hex:	Binary:		Dec:		4-Bit:
+0		0			0			0 0 0 0
+1		1			1			0 0 0 1
+2					2			0 0 1 0
+3					3			0 0 1 1
+4					4			0 1 0 0
+5					5			0 1 0 1
+6					6			0 1 1 0
+7					7			0 1 1 1
+8					8			1 0 0 0
+9					9			1 0 0 1
+A								1 0 1 0
+B								1 0 1 1
+C								1 1 0 0
+D								1 1 0 1
+E								1 1 1 0
+F								1 1 1 1
+
+To convert Binary to Hex; Match every 4 bits of Binary to a Hex value
+
+AND = &				1 & 1 = 1, 0 & 0 = 0, 1 & 0 = 0
+OR = |				1 | 1 = 1, 0 | 0 = 0, 1 | 0 = 1
+Complement = ~		~1 = 0, ~0 = 1
+XOR = ^				1 ^ 1 = 0, 0 ^ 0 = 0, 1 ^ 0 = 1
+Shift Left = <<		0 0 1 1 << 1 = 0 1 1 0 trailing removed
+Shift Right = >>	0 0 1 1 >> 1 = 0 0 0 1 trailing removed
+NOT = !				!(false) = true

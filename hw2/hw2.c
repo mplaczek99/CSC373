@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <limits.h>
+#include <string.h>
+
+// Convert 0xEBFA6C4D from hex to binary: 1110 1011 1111 1010 0110 1100 0100 1101
+// Convert 11011011 01100111 10010101 10101110 from binary to hex: 0xDB6795AE
+// Convert 0x0000CE from hex to decimal notation: 206
+// Convert 10100110 from binary to decimal notation: 166
+
+// Problem 2.60 in BO
+unsigned replace_byte (unsigned x, int i, unsigned char b) {
+  // implement this
+  
+  // since chars can change like an array...
+  char* xAddr = (char*)(&x); // casts the actual address of x to be a char that p points to
+  xAddr[i] = b; // changes the ith byte of xAddr to be b
+
+  // this simplification is only possible because of pointers
+  return x; // cannot return p because p is a char that points to what x is
+}
+
+// Problem 2.65 in BO
+unsigned odd_ones (unsigned x) {
+  // implement this
+
+  int count = 0;
+  while(x > 0) {
+    if(x & 1 == 1) ++count; // Checks if the bit is 1
+    x = x >> 1; // Gets next bit
+  }
+  return count % 2;
+}
+
+void bin2dec(const char *bin_num) {
+  int total = 0;
+
+  while (*bin_num) { // goes through all bits of bin_num, cool new if statement I just learned
+    total *= 2; // multiplies each digit of the binary
+    total += *bin_num - '0'; // adds each binary number (crucial)
+    
+    bin_num++; // don't forget to increment bit...
+  }
+  printf("%i\n", total);
+}
+
+void dec2bin(int num) {
+  int b; // b for bit, not sure if int is best var type...but it works
+  
+  // the more traditional way to bitshift
+  for (int count = 31; count >= 0; --count) {
+    b = num >> count;
+
+    if (b & 1) printf("1");
+    else printf("0");
+  }
+  printf("\n");
+}
+
+// test code; do not modify
+int main() {
+  char *bin_nums[] = {"0", "10010110", "10111011001001"};
+  int dec_nums[] = {0, 1, 77, 159, 65530, 987654321};
+  int i;
+  int x = 0x12345678, b = 0xAB;
+
+  printf("=== replace_byte ===\n");
+  for (i =0; i < 2; i++)
+  	printf("replace_byte(%x, %d, %x) --> %x\n", x, i, b, replace_byte(x, i, b));
+  for (i = 0; i < sizeof(dec_nums)/sizeof(int); i++)
+	printf("odd_ones(%d) --> %d\n", dec_nums[i], odd_ones(dec_nums[i]));
+
+  printf("=== bin2dec ===\n");
+  for (i = 0; i < sizeof(bin_nums)/sizeof(char *); i++)
+  	bin2dec(bin_nums[i]);
+
+  printf("=== dec2bin ===\n");
+  for (i = 0; i < sizeof(dec_nums)/sizeof(int); i++)
+  	dec2bin(dec_nums[i]);
+
+  return 0;
+}
